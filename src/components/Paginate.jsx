@@ -1,29 +1,93 @@
+import React,{useState, useEffect} from 'react';
+import Pagination from "react-js-pagination";
+import axios from 'axios';
+import TodoList from './components/TodoList';
+
+function App ()  {
+
+  const [posts, setPosts] = useState([]);
+  const [itemsCountPerPage, setItemsCountPerPage] = useState(5);
+  const [activePage, setActivePage] = useState(1);
+  // const [totalItemsCount, setTotalItemsCount] = useState(20);
+  const [pageRangeDisplayed, setPageRangeDisplayed] = useState(5)
+
+  
+
+    const LastPost = activePage * itemsCountPerPage;
+     const FirstPost = LastPost - itemsCountPerPage;
+     const currentPosts = posts.slice(FirstPost, LastPost);
+     console.log('index of LastPost', LastPost)
+     console.log('index of FirstPost', FirstPost)
+     console.log('currentPosts', currentPosts)
+
+  
+  
+  
+  const handlePageChange = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    setActivePage( pageNumber);    
+   console.log('pageNumber',pageNumber)
+  } 
+  
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/photos?_start=0&_limit=20') 
+        .then(res => {
+            console.log('response',res.data);
+            setPosts(res.data)      
+        })
+        .catch(err => {
+            console.log(err);
+        })
+  }, []);
+
+    return (
+      <div className="App">
+        <TodoList  
+        posts ={currentPosts} 
+        />
+        <Pagination
+          activePage={activePage}
+          itemsCountPerPage={itemsCountPerPage}
+          totalItemsCount={posts.length}
+          pageRangeDisplayed={pageRangeDisplayed}
+          onChange={handlePageChange}
+        />
+        
+      </div>
+    );
+  
+  
+}
+
+export default App;
+
+
 import React from 'react';
-import _ from 'lodash'
 
-const Paginate = props => {
+const Posts = ({ posts }) => {
 
-    const { totalCount, pageSize } = props;
-    const pageCount = totalCount / pageSize ;
-    const pages = _.range(1, pageCount + 1);//[1, ....pagecount]
+  return (
+    <div className='container'>
+      <table className="table">
+                <thead>
+                    <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    </tr>
+                </thead>
+				<tbody>
+					{posts?.map((item, index) => {
+							return (
+								<tr key={index}>
+									<td>{item.id}</td>
+									<td>{item.title}</td>
+								</tr>
+							);
+					})}
+				</tbody>
+			</table>      
+    </div>
+  );
+};
 
-    return(
-        <div className='container'>
-            <nav aria-label="Page navigation example">
-            <ul className="pagination">
-                {
-                    pages.map((page, index) => {
-                        <li key={index} className="page-item">
-                            <a className="page-link" >{page}</a>
-                        </li>
-                    })
-                }
-                
-                
-            </ul>
-            </nav>
-        </div>
-    )
-
-} 
-export default Paginate;
+export default Posts;
