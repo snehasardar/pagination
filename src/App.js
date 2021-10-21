@@ -1,58 +1,61 @@
-import React,{Component} from 'react';
+import React,{useState, useEffect} from 'react';
 import Pagination from "react-js-pagination";
 import axios from 'axios';
 import TodoList from './components/TodoList';
 
-class App extends Component  {
-  constructor(props){
-    super(props);
-    this.state = {
-      itemsCountPerPage : 5,
-      activePage : 15,
-      totalItemsCount : 20,
-      pageRangeDisplayed : 5,
-      posts : [],
-    }
-  }
+function App ()  {
+
+  const [posts, setPosts] = useState([]);
+  const [itemsCountPerPage, setItemsCountPerPage] = useState(5);
+  const [activePage, setActivePage] = useState(1);
+  // const [totalItemsCount, setTotalItemsCount] = useState(20);
+  const [pageRangeDisplayed, setPageRangeDisplayed] = useState(5)
+
   
-  handlePageChange(pageNumber) {
+
+    const LastPost = activePage * itemsCountPerPage;
+     const FirstPost = LastPost - itemsCountPerPage;
+     const currentPosts = posts.slice(FirstPost, LastPost);
+     console.log('index of LastPost', LastPost)
+     console.log('index of FirstPost', FirstPost)
+     console.log('currentPosts', currentPosts)
+
+  
+  
+  
+  const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
-    this.setState({activePage: pageNumber});    
+    setActivePage( pageNumber);    
    console.log('pageNumber',pageNumber)
   } 
   
-  
-  componentDidMount(){
-    axios.get('https://jsonplaceholder.typicode.com/photos?_start=0&_limit=20')
-    .then(res => {
-      this.setState({posts: res.data});
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
-  
-  
-  render(){
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/photos?_start=0&_limit=20') 
+        .then(res => {
+            console.log('response',res.data);
+            setPosts(res.data)      
+        })
+        .catch(err => {
+            console.log(err);
+        })
+  }, []);
+
     return (
       <div className="App">
         <TodoList  
-        posts ={this.state.posts} 
-        activePage={this.state.activePage}
-          itemsCountPerPage={this.state.itemsCountPerPage}
-          totalItemsCount={this.state.posts.length}
-          pageRangeDisplayed={this.state.pageRangeDisplayed}/>
+        posts ={currentPosts} 
+        />
         <Pagination
-          activePage={this.state.activePage}
-          itemsCountPerPage={this.state.itemsCountPerPage}
-          totalItemsCount={this.state.posts.length}
-          pageRangeDisplayed={this.state.pageRangeDisplayed}
-          onChange={this.handlePageChange.bind(this)}
+          activePage={activePage}
+          itemsCountPerPage={itemsCountPerPage}
+          totalItemsCount={posts.length}
+          pageRangeDisplayed={pageRangeDisplayed}
+          onChange={handlePageChange}
         />
         
       </div>
     );
-  }
+  
   
 }
 

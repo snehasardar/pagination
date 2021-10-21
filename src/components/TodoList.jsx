@@ -1,15 +1,7 @@
 import axios from 'axios';
 import React from 'react'
-const TodoList = (props) => {
-    const { posts, activePage, itemsCountPerPage } = props;
-    
-    
-     const LastPost = activePage * itemsCountPerPage;
-     const FirstPost = LastPost - itemsCountPerPage;
-     const currentPosts = posts.slice(FirstPost, LastPost);
-     console.log('index of LastPost', LastPost)
-     console.log('index of FirstPost', FirstPost)
-     console.log('currentPosts', currentPosts)
+const TodoList = ({posts}) => {
+    // const { posts, activePage, itemsCountPerPage } = props;
     
     return(
         <div className='container  mt-5'>
@@ -22,8 +14,8 @@ const TodoList = (props) => {
                     </tr>
                 </thead>
 				<tbody>
-					{ currentPosts &&
-                    currentPosts.map((item, index) => {
+					{ posts &&
+                    posts.map((item, index) => {
 							return (
 								<tr key={index}>
 									<td>{item.id}</td>
