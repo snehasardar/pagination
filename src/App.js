@@ -23,7 +23,7 @@ class App extends Component  {
   
   
   componentDidMount(){
-    axios.get('http://jsonplaceholder.typicode.com/photos?_start=0&_limit=20')
+    axios.get('https://jsonplaceholder.typicode.com/photos?_start=0&_limit=20')
     .then(res => {
       this.setState({posts: res.data});
     })
