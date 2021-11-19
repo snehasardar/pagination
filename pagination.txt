@@ -1,0 +1,26 @@
+why do we use pagination?
+
+1. reduce the size of api call
+2. split data into small chunks
+3. easy to render
+4. increases performance
+
+
+Why Do we use loaders?
+
+1. Rendering elements suddenly will cause page to break
+2. Use friendly
+3. Slow Api response causes user to think the system is stuck or crashed
+===
+1. Local Loaders => Component wise loaders
+2. Global Loaders => Loader interconnected to all components
+
+
+http://jsonplaceholder.typicode.com/photos?_start=0&_limit=5
+<Pagination
+          activePage={this.state.activePage}
+          itemsCountPerPage={10}
+          totalItemsCount={450}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange.bind(this)}
+        />
