@@ -61,33 +61,33 @@ function App ()  {
 
 export default App;
 
+//it's working
+// import React from 'react';
 
-import React from 'react';
+// const Posts = ({ posts }) => {
 
-const Posts = ({ posts }) => {
+//   return (
+//     <div className='container'>
+//       <table className="table">
+//                 <thead>
+//                     <tr>
+//                     <th>Id</th>
+//                     <th>Title</th>
+//                     </tr>
+//                 </thead>
+// 				<tbody>
+// 					{posts?.map((item, index) => {
+// 							return (
+// 								<tr key={index}>
+// 									<td>{item.id}</td>
+// 									<td>{item.title}</td>
+// 								</tr>
+// 							);
+// 					})}
+// 				</tbody>
+// 			</table>      
+//     </div>
+//   );
+// };
 
-  return (
-    <div className='container'>
-      <table className="table">
-                <thead>
-                    <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    </tr>
-                </thead>
-				<tbody>
-					{posts?.map((item, index) => {
-							return (
-								<tr key={index}>
-									<td>{item.id}</td>
-									<td>{item.title}</td>
-								</tr>
-							);
-					})}
-				</tbody>
-			</table>      
-    </div>
-  );
-};
-
-export default Posts;
+// export default Posts;
